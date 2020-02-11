@@ -10,4 +10,4 @@ import Foundation
 
 //let WorldCategory    : UInt32 = 0x1 << 1
 let RubyCategory : UInt32 = 0x1 << 2
-//let FloorCategory    : UInt32 = 0x1 << 3
+let FloorCategory    : UInt32 = 0x1 << 3

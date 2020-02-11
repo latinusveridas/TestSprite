@@ -18,6 +18,9 @@ public class Boundaries : SKNode {
         let startPoint = CGPoint(x: 0, y: yPos)
         let endPoint = CGPoint(x: size.width, y: yPos)
         physicsBody = SKPhysicsBody(edgeFrom: startPoint, to: endPoint)
+        
+        ruby.physicsBody?.categoryBitMask = FloorCategory
+        ruby.physicsBody?.contactTestBitMask = RubyCategory
 
     }
     

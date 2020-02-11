@@ -17,7 +17,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let yellowRubyTexture = SKTexture(imageNamed: "yellowRuby")
     
     var tapPosition: CGPoint?
-    var rotationGesture = UIGestureRecognizer()
     
     override func sceneDidLoad() {
         
@@ -38,17 +37,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.backgroundColor = .clear
         self.physicsWorld.contactDelegate = self
         
+        
+        let holdTap = UILongPressGestureRecognizer(target: self, 
+            action: #selector(throwMultipleRubys(3)))
+        addGestureRecognizer(holdTap)
+        
     }
+
+}
+
+// MARK: Touch
+
+extension GameScene {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
         for touch in touches {
             let location = touch.location(in: self)
             let position = CGPoint(x: location.x, y: location.y)
             self.tapPosition = position
             
-            spawnRaindrop(position: position)
-            
+            throwRuby()
         }
     }
     
@@ -56,62 +64,86 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if (contact.bodyA.categoryBitMask == RubyCategory) {
             
             if (contact.bodyA.node!.position.y > self.tapPosition!.y) {
-                print("Above")
-                buildBonus()
+                showBonus()
             }
             
           contact.bodyA.node?.physicsBody?.collisionBitMask = 0
           contact.bodyA.node?.physicsBody?.categoryBitMask = 0
+          
+        } else if (contact.bodyA.categoryBitMask == FloorCategory) {
+        
+            bodyB.node.removeFromParent()
+        
+            contact.bodyA.node?.physicsBody?.collisionBitMask = 0
+            contact.bodyA.node?.physicsBody?.categoryBitMask = 0
         }
     }
-        
-    private func spawnRaindrop(position: CGPoint) {
-                
-        let raindrop = SKSpriteNode(texture: redRubyTexture)
-        raindrop.physicsBody = SKPhysicsBody(texture: redRubyTexture, size: raindrop.size)
-        raindrop.scale(to: CGSize(width: 20, height: 20))
-        raindrop.position = position
-        raindrop.physicsBody?.linearDamping = 0.01 // Droping velocity
-        raindrop.physicsBody?.restitution = 0.5 // Bouncy level
-        
-        raindrop.physicsBody?.categoryBitMask = RubyCategory
-        raindrop.physicsBody?.contactTestBitMask = RubyCategory
+    
+}
 
-        addChild(raindrop)
+// MARK: Ruby related functions
+extension GameScene {
+    
+    private func throwRuby() {
+        let position = self.tapPosition
+        let ruby = SKSpriteNode(texture: redRubyTexture)
+        ruby.physicsBody = SKPhysicsBody(texture: redRubyTexture, size: ruby.size)
+        ruby.scale(to: CGSize(width: 20, height: 20))
+        ruby.position = position
+        ruby.physicsBody?.linearDamping = 0.01 // Droping velocity
+        ruby.physicsBody?.restitution = 0.5 // Bouncy level
+        
+        ruby.physicsBody?.categoryBitMask = RubyCategory
+        ruby.physicsBody?.contactTestBitMask = RubyCategory | FloorCategory
+
+        addChild(ruby)
         
         let rdmX = CGFloat.random(in: -10...10)
         let vector: CGVector = CGVector(dx: rdmX, dy: 150)
-        raindrop.physicsBody?.applyImpulse(vector)
-
+        ruby.physicsBody?.applyImpulse(vector)
     }
     
-    private func spawnYellowRaindrop() {
+    private func throwYellowRuby() {
         let position = self.tapPosition!
-        let raindrop = SKSpriteNode(texture: yellowRubyTexture)
-        raindrop.physicsBody = SKPhysicsBody(texture: yellowRubyTexture, size: raindrop.size)
-        raindrop.scale(to: CGSize(width: 20, height: 20))
-        raindrop.position = position
-        raindrop.physicsBody?.linearDamping = 0.01 // Droping velocity
-        raindrop.physicsBody?.restitution = 0.5 // Bouncy level
+        let ruby = SKSpriteNode(texture: yellowRubyTexture)
+        ruby.physicsBody = SKPhysicsBody(texture: yellowRubyTexture, size: ruby.size)
+        ruby.scale(to: CGSize(width: 20, height: 20))
+        ruby.position = position
+        ruby.physicsBody?.linearDamping = 0.01 // Droping velocity
+        ruby.physicsBody?.restitution = 0.5 // Bouncy level
 
-        addChild(raindrop)
+        ruby.physicsBody?.categoryBitMask = RubyCategory
+        ruby.physicsBody?.contactTestBitMask = RubyCategory
+
+        addChild(ruby)
         
         let rdmX = CGFloat.random(in: -10...10)
         let vector: CGVector = CGVector(dx: rdmX, dy: 150)
-        raindrop.physicsBody?.applyImpulse(vector)
-
+        ruby.physicsBody?.applyImpulse(vector)
+    }   
+    
+    @objc private func throwMultipleRubys(_ nbItems: Int) {
+        let position = self.tapPosition 
+        if nbItems = 1 {
+            throwRuby()
+        } else {
+            throwRuby() // shoot first ruby
+            for i in 1...nbItems - 1 {
+                DispatchQueue.main.asyncAfter(deadline: .now() + i) {
+                    throwRuby()
+                }
+            }
+        }
     }
     
-    func buildBonus() {
+}
+
+// MARK: Achievements
+extension GameScene {
+    
+    func showBonus() {
         let bonusAnimatedAtlas = SKTextureAtlas(named: "BonusImages")
         var bonusFrames: [SKTexture] = []
-        
-        // set bonusFrames
-        let numImages = bonusAnimatedAtlas.textureNames.count
-        for i in 1...numImages {
-          let bonusTextureName = "bonus\(i)"
-          bonusFrames.append(bonusAnimatedAtlas.textureNamed(bonusTextureName))
-        }
         
         // show bonus frame
         let firstFrameTexture = bonusFrames[0]
@@ -120,6 +152,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bonus.scale(to: CGSize(width: 200, height: 75))
         addChild(bonus)
         
+        // set bonusFrames
+        let numImages = bonusAnimatedAtlas.textureNames.count
+        for i in 1...numImages {
+          let bonusTextureName = "bonus\(i)"
+          bonusFrames.append(bonusAnimatedAtlas.textureNamed(bonusTextureName))
+        }
+        
         // anime
         let act =  SKAction.repeat(
           SKAction.animate(with: bonusFrames, timePerFrame: 0.2, resize: false, restore: true), count: 2)
@@ -127,9 +166,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bonus.run(act, completion: {
             bonus.removeFromParent()
         })
-        
     }
     
-
-
 }
