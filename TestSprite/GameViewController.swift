@@ -9,42 +9,69 @@
 import UIKit
 import SpriteKit
 import GameplayKit
+import AVKit
 
 class GameViewController: UIViewController {
+    
+    let videoView = UIView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let view = self.view as! SKView? {
-            // Load the SKScene from 'GameScene.sks'
-            if let scene = SKScene(fileNamed: "GameScene") {
-                // Set the scale mode to scale to fit the window
-                scene.scaleMode = .aspectFill
+        let sceneNode = GameScene(size: view.frame.size)
+        let skView = SKView(frame: view.frame)
+        
+        view.backgroundColor = .green
+        
+        let videoView = UIView(frame: .zero)
+        videoView.backgroundColor = .blue
+        
+        view.addSubview(videoView)
+        
+        videoView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            videoView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            videoView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            videoView.heightAnchor.constraint(equalToConstant: 200),
+            videoView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+        
+//        view.addSubview(skView)
+//
+//        if let view = skView as! SKView? {
+//            view.allowsTransparency = true
+//            view.backgroundColor = .clear
+//            view.presentScene(sceneNode)
+//            view.ignoresSiblingOrder = true
+//            //view.showsPhysics = true
+//            view.showsFPS = true
+//            view.showsNodeCount = true
+//        }
                 
-                // Present the scene
-                view.presentScene(scene)
-            }
-            
-            view.ignoresSiblingOrder = true
-            
-            view.showsFPS = true
-            view.showsNodeCount = true
-        }
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(false)
+        
+        let videoURL = Bundle.main.url(forResource: "dog", withExtension: "mp4")
+        let asset = AVAsset(url: videoURL!)
+        let playerItem = AVPlayerItem(asset: asset)
+        
+        let player = AVPlayer(playerItem: playerItem)
+        
+        let playerLayer = AVPlayerLayer(player: player)
+        playerLayer.frame = videoView.bounds
+        
+        videoView.layer.addSublayer(playerLayer)
+        player.play()
+        
+//        let videoControler = AVPlayerViewController()
+//        videoControler.player = player
+//
+//        self.present(videoControler, animated: false, completion: nil)
+        
+    }
+    
 
-    override var shouldAutorotate: Bool {
-        return true
-    }
 
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return .allButUpsideDown
-        } else {
-            return .all
-        }
-    }
-
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
 }

@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		004856A823EFF68E0098010D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004856A723EFF68E0098010D /* AppDelegate.swift */; };
-		004856AA23EFF68E0098010D /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 004856A923EFF68E0098010D /* GameScene.sks */; };
-		004856AC23EFF68E0098010D /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 004856AB23EFF68E0098010D /* Actions.sks */; };
 		004856AE23EFF68E0098010D /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004856AD23EFF68E0098010D /* GameScene.swift */; };
 		004856B023EFF68E0098010D /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004856AF23EFF68E0098010D /* GameViewController.swift */; };
 		004856B323EFF68E0098010D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 004856B123EFF68E0098010D /* Main.storyboard */; };
@@ -17,6 +15,10 @@
 		004856B823EFF68F0098010D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 004856B623EFF68F0098010D /* LaunchScreen.storyboard */; };
 		004856C323EFF68F0098010D /* TestSpriteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004856C223EFF68F0098010D /* TestSpriteTests.swift */; };
 		004856CE23EFF68F0098010D /* TestSpriteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004856CD23EFF68F0098010D /* TestSpriteUITests.swift */; };
+		004856DC23EFFE780098010D /* Boundaries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004856DB23EFFE780098010D /* Boundaries.swift */; };
+		00602A9223F1E1E00056FCBA /* BonusImages.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 00602A9123F1E1E00056FCBA /* BonusImages.atlas */; };
+		00602A9423F1E27A0056FCBA /* Colisions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00602A9323F1E27A0056FCBA /* Colisions.swift */; };
+		00602A9623F1FB430056FCBA /* dog.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 00602A9523F1FA650056FCBA /* dog.mp4 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,8 +41,6 @@
 /* Begin PBXFileReference section */
 		004856A423EFF68E0098010D /* TestSprite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestSprite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		004856A723EFF68E0098010D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		004856A923EFF68E0098010D /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		004856AB23EFF68E0098010D /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		004856AD23EFF68E0098010D /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		004856AF23EFF68E0098010D /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		004856B223EFF68E0098010D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -53,6 +53,10 @@
 		004856C923EFF68F0098010D /* TestSpriteUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestSpriteUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		004856CD23EFF68F0098010D /* TestSpriteUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSpriteUITests.swift; sourceTree = "<group>"; };
 		004856CF23EFF68F0098010D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		004856DB23EFFE780098010D /* Boundaries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Boundaries.swift; sourceTree = "<group>"; };
+		00602A9123F1E1E00056FCBA /* BonusImages.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = BonusImages.atlas; sourceTree = "<group>"; };
+		00602A9323F1E27A0056FCBA /* Colisions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colisions.swift; sourceTree = "<group>"; };
+		00602A9523F1FA650056FCBA /* dog.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = dog.mp4; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,14 +108,16 @@
 			isa = PBXGroup;
 			children = (
 				004856A723EFF68E0098010D /* AppDelegate.swift */,
-				004856A923EFF68E0098010D /* GameScene.sks */,
-				004856AB23EFF68E0098010D /* Actions.sks */,
+				004856DB23EFFE780098010D /* Boundaries.swift */,
 				004856AD23EFF68E0098010D /* GameScene.swift */,
 				004856AF23EFF68E0098010D /* GameViewController.swift */,
 				004856B123EFF68E0098010D /* Main.storyboard */,
+				00602A9523F1FA650056FCBA /* dog.mp4 */,
+				00602A9323F1E27A0056FCBA /* Colisions.swift */,
 				004856B423EFF68F0098010D /* Assets.xcassets */,
 				004856B623EFF68F0098010D /* LaunchScreen.storyboard */,
 				004856B923EFF68F0098010D /* Info.plist */,
+				00602A9123F1E1E00056FCBA /* BonusImages.atlas */,
 			);
 			path = TestSprite;
 			sourceTree = "<group>";
@@ -238,11 +244,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00602A9623F1FB430056FCBA /* dog.mp4 in Resources */,
 				004856B323EFF68E0098010D /* Main.storyboard in Resources */,
-				004856AA23EFF68E0098010D /* GameScene.sks in Resources */,
+				00602A9223F1E1E00056FCBA /* BonusImages.atlas in Resources */,
 				004856B523EFF68F0098010D /* Assets.xcassets in Resources */,
 				004856B823EFF68F0098010D /* LaunchScreen.storyboard in Resources */,
-				004856AC23EFF68E0098010D /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,7 +273,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00602A9423F1E27A0056FCBA /* Colisions.swift in Sources */,
 				004856AE23EFF68E0098010D /* GameScene.swift in Sources */,
+				004856DC23EFFE780098010D /* Boundaries.swift in Sources */,
 				004856B023EFF68E0098010D /* GameViewController.swift in Sources */,
 				004856A823EFF68E0098010D /* AppDelegate.swift in Sources */,
 			);
